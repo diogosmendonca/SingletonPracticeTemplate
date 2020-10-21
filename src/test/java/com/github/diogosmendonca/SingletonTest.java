@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -23,24 +24,44 @@ public class SingletonTest
     private static String className = "./src/main/java/com/github/diogosmendonca/MySingleton.java";
     private static String patternsPath = "./src/test/resources/";
 
-    @ParameterizedTest
-    @ValueSource(strings = {"MissingInstanceSingleton", "DefaultConstructorSingleton", "MissingGetInstanceSingleton", 
-    "NotStaticInstance", "NotPrivateInstance", "NotPrivateConstructor", "PrivateGetInstance", "NotStaticGetInstance", 
-    "GetInstanceReturnsNull", "NotVerifyForNullBerforeInstantiate", "InstanceNullAssignment"}) 
+    
     public void patternChecking(String pattern)
     {        
         List<Node> retorno = Search.searchOccurrences(className, patternsPath + pattern + ".java");
         if(retorno != null){
             for(Node n: retorno){
-                assertFalse(n.isToReturn());;
+                assertFalse(n.isToReturn(), "Structural checking failed. Check de console log for the alert message.");
             }
         }else{
             fail("Error during test execution.");
         }
     }
 
+    @Tag("instanceChecking")
+    @ParameterizedTest
+    @ValueSource(strings = {"MissingInstanceSingleton", "NotStaticInstance", "NotPrivateInstance"}) 
+    public void instanceTest(String pattern){
+        patternChecking(pattern);
+    }
+
+    @Tag("constructorChecking")
+    @ParameterizedTest
+    @ValueSource(strings = {"DefaultConstructorSingleton", "NotPrivateConstructor"}) 
+    public void constructorTest(String pattern){
+        patternChecking(pattern);
+    }
+
+    @Tag("getInstanceChecking")
+    @ParameterizedTest
+    @ValueSource(strings = {"MissingGetInstanceSingleton", "PrivateGetInstance", "NotStaticGetInstance", 
+    "GetInstanceReturnsNull", "NotVerifyForNullBerforeInstantiate", "InstanceNullAssignment"}) 
+    public void getInstanceTest(String pattern){
+        patternChecking(pattern);
+    }
+
+    @Tag("executionTest")
     @Test
-    public void executionTest(){
+    public void sameInstanceTest(){
 
         java.lang.reflect.Method method;
         try {
@@ -48,8 +69,7 @@ public class SingletonTest
             assertNotNull(method.invoke(null));
             assertSame(method.invoke(null), method.invoke(null));
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Execution of getInstance returned an exception");
+            fail("Execution of getInstance threw an exception: " + e.getClass() + " " + e.getMessage());
         }
     }
 
