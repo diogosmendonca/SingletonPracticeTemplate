@@ -10,5 +10,6 @@ mvn test
 
 Verifique as mensagens do console durante os testes para melhorar seu Singleton. Se todos os testes estiverem passando sua implementação está correta.
 
+A versão mínima do Java JDK para rodar os testes é a 11.
 
 

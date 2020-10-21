@@ -10,4 +10,4 @@ mvn test
 
 Check the console messages of the tests to improve your Singleton. If all tests are passing, your implementation is correct. 
 
-
+The minimum Java JDK  version for testing is 11.
