@@ -54,7 +54,7 @@ public class SingletonTest
     @Tag("getInstanceChecking")
     @ParameterizedTest
     @ValueSource(strings = {"MissingGetInstanceSingleton", "PrivateGetInstance", "NotStaticGetInstance", 
-    "GetInstanceReturnsNull", "NotVerifyForNullBerforeInstantiate", "InstanceNullAssignment"}) 
+    "GetInstanceReturnsNull", "NotVerifyForNullBerforeInstantiate", "InstanceNullAssignment", "NotReturnInstance"}) 
     public void getInstanceTest(String pattern){
         patternChecking(pattern);
     }

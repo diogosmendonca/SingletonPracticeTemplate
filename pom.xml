@@ -35,7 +35,7 @@
     <dependency>
       <groupId>com.github.diogosmendonca</groupId>
       <artifactId>SCPL</artifactId>
-      <version>0.1.2-alpha</version>
+      <version>0.2.1-beta</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
